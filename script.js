@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const formData = new FormData(form);
                 const data = Object.fromEntries(formData.entries());
 
-                const response = await fetch("http://161.97.125.138:5678/webhook/lead-nexo", {
+                const response = await fetch("/webhook/lead-nexo", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
