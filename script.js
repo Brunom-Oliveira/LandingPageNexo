@@ -41,24 +41,47 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('leadForm');
     
     if (form) {
-        form.addEventListener('submit', (e) => {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
             const phone = phoneInput.value.replace(/\D/g, '');
             if (phone.length < 10) {
-                e.preventDefault();
                 alert('Por favor, insira um número de WhatsApp válido com DDD.');
                 phoneInput.focus();
                 return;
             }
             
-            // If this was a real production app without a backend, 
-            // we'd handle the submission via AJAX here.
-            // For now, we allow the form to submit to the action URL as requested.
-            
-            // Optional: visual feedback before submit
             const btn = form.querySelector('button[type="submit"]');
-            const originalText = btn.innerText;
-            btn.innerText = 'Enviando...';
-            btn.disabled = true;
+            const originalText = btn.innerHTML;
+            
+            try {
+                btn.innerHTML = 'Enviando...';
+                btn.disabled = true;
+
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData.entries());
+
+                const response = await fetch("http://161.97.125.138:5678/webhook/lead-nexo", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    alert('Solicitação enviada com sucesso! Em breve entraremos em contato.');
+                    form.reset();
+                } else {
+                    alert('Ocorreu um erro ao enviar. Por favor, tente novamente ou chame no WhatsApp.');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Ocorreu um erro de conexão. Por favor, tente novamente.');
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
         });
     }
 
