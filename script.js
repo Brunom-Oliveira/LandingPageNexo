@@ -88,8 +88,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const formData = new FormData(form);
                 const data = Object.fromEntries(formData.entries());
 
-                // URL do n8n (Substitua pela sua URL real do Webhook de Produção)
-                const N8N_WEBHOOK_URL = "https://n8n.nexodigital.club/webhook/lead"; 
+                // URL do n8n (Webhook de Produção)
+                const N8N_WEBHOOK_URL = "https://api.nexodigital.club/webhook/lead-nexo"; 
 
                 const response = await fetch(N8N_WEBHOOK_URL, {
                     method: "POST",
