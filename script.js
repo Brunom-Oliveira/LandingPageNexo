@@ -149,4 +149,24 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Cookie Banner Logic
+    const cookieBanner = document.getElementById('cookie-banner');
+    const acceptCookiesBtn = document.getElementById('accept-cookies');
+    
+    // Check if user has already accepted cookies
+    if (!localStorage.getItem('cookiesAccepted')) {
+        // Show banner after 2 seconds
+        setTimeout(() => {
+            cookieBanner.classList.add('show');
+        }, 2000);
+    }
+    
+    if (acceptCookiesBtn) {
+        acceptCookiesBtn.addEventListener('click', () => {
+            // Save preference
+            localStorage.setItem('cookiesAccepted', 'true');
+            // Hide banner
+            cookieBanner.classList.remove('show');
+        });
+    }
 });

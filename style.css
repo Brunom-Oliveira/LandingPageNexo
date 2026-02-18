@@ -1330,8 +1330,57 @@ footer {
     margin: 0;
 }
 
-.sticky-content .btn {
-    padding: 0.5rem 1.25rem;
+/* Cookie Banner */
+.cookie-banner {
+    position: fixed;
+    bottom: -100px; /* Hidden initially */
+    left: 0;
+    width: 100%;
+    background: #1e293b;
+    color: white;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    z-index: 2000;
+    transition: bottom 0.5s ease;
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.2);
+}
+
+.cookie-banner.show {
+    bottom: 0;
+}
+
+.cookie-banner p {
     font-size: 0.9rem;
-    white-space: nowrap;
+    margin: 0;
+}
+
+.cookie-banner a {
+    color: var(--secondary);
+    text-decoration: underline;
+}
+
+.btn-cookie {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.5rem 1.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.btn-cookie:hover {
+    background: var(--primary-dark);
+}
+
+@media (max-width: 600px) {
+    .cookie-banner {
+        flex-direction: column;
+        text-align: center;
+        padding-bottom: 2rem;
+    }
 }
