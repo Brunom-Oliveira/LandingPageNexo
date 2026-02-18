@@ -845,6 +845,7 @@ footer {
     .cta-text { border-radius: 1rem 1rem 0 0; }
     .form-wrapper { border-radius: 0 0 1rem 1rem; }
     .floating-whatsapp { bottom: 1rem; right: 1rem; width: 50px; height: 50px; font-size: 1.5rem; }
+}
 
 /* Toast Notifications */
 .toast-container {
