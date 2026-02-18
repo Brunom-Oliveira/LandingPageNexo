@@ -1033,48 +1033,92 @@ footer {
     background-color: var(--bg-white);
 }
 
+.benefits-group {
+    background-color: #F8FAFC;
+    padding: 3rem;
+    border-radius: 2rem;
+    border: 1px solid var(--border);
+}
+
+.benefits-group.reverse {
+    background-color: #F0FDF4; /* Light Green Tint for Sales */
+    border-color: #BBF7D0;
+}
+
+.group-header {
+    margin-bottom: 2.5rem;
+    max-width: 600px;
+}
+
+.badge-pill {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 99px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+.badge-pill.c-secondary {
+    background: #DCFCE7;
+    color: var(--secondary-dark);
+}
+
+.highlight-sec {
+    color: var(--secondary-dark);
+}
+
+.group-header h3 {
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.group-header p {
+    color: var(--text-light);
+    font-size: 1.1rem;
+}
+
 .grid-benefits {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
 }
 
 .benefit-card {
-    background: var(--bg-main);
+    background: white;
     padding: 2rem;
     border-radius: var(--radius-lg);
     border: 1px solid var(--border);
     transition: all 0.3s ease;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
+    text-align: left;
+    height: 100%;
 }
 
 .benefit-card:hover {
     transform: translateY(-5px);
     box-shadow: var(--shadow-lg);
-    border-color: var(--primary-light);
-    background: white;
 }
 
 .benefit-icon {
-    width: 64px;
-    height: 64px;
+    width: 56px;
+    height: 56px;
     background: var(--primary-light);
     color: var(--primary);
-    border-radius: 50%;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2rem;
-    margin: 0 auto 1.5rem auto;
+    font-size: 1.75rem;
+    margin-bottom: 1.25rem;
     transition: all 0.3s ease;
 }
 
-.benefit-card:hover .benefit-icon {
-    background: var(--primary);
-    color: white;
-    transform: scale(1.1);
+.benefit-icon.sec {
+    background: #DCFCE7;
+    color: var(--secondary-dark);
 }
 
 .benefit-card h3 {
@@ -1087,4 +1131,14 @@ footer {
     color: var(--text-light);
     font-size: 0.95rem;
     line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .benefits-group {
+        padding: 2rem 1.5rem;
+    }
+    
+    .group-header h3 {
+        font-size: 1.5rem;
+    }
 }
