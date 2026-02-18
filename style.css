@@ -1314,6 +1314,11 @@ footer {
     z-index: 1000;
     padding: 0.75rem 1rem;
     border-top: 1px solid var(--border);
+    transition: transform 0.3s ease;
+}
+
+.mobile-sticky-bar.hidden {
+    transform: translateY(100%);
 }
 
 .sticky-content {
@@ -1331,14 +1336,15 @@ footer {
 }
 
 /* Cookie Banner */
+/* Cookie Banner */
 .cookie-banner {
     position: fixed;
-    bottom: -100px; /* Hidden initially */
+    bottom: -100%; /* Hidden initially */
     left: 0;
     width: 100%;
     background: #1e293b;
     color: white;
-    padding: 1rem;
+    padding: 1rem 1.5rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1346,6 +1352,7 @@ footer {
     z-index: 2000;
     transition: bottom 0.5s ease;
     box-shadow: 0 -4px 12px rgba(0,0,0,0.2);
+    flex-wrap: wrap; /* Fix truncated text */
 }
 
 .cookie-banner.show {
@@ -1353,24 +1360,30 @@ footer {
 }
 
 .cookie-banner p {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     margin: 0;
+    line-height: 1.4;
+    flex: 1; /* Take up available space */
+    min-width: 200px;
 }
 
 .cookie-banner a {
     color: var(--secondary);
     text-decoration: underline;
+    white-space: nowrap;
 }
 
 .btn-cookie {
     background: var(--primary);
     color: white;
     border: none;
-    padding: 0.5rem 1.5rem;
+    padding: 0.5rem 1rem;
     border-radius: 4px;
     font-weight: 600;
     cursor: pointer;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    margin-left: auto;
 }
 
 .btn-cookie:hover {
@@ -1379,8 +1392,14 @@ footer {
 
 @media (max-width: 600px) {
     .cookie-banner {
-        flex-direction: column;
-        text-align: center;
-        padding-bottom: 2rem;
+        padding: 1rem;
+        padding-bottom: 2rem; /* Safe area for swipe bar */
+        align-items: flex-start;
+    }
+    
+    .btn-cookie {
+        margin-left: 0; 
+        width: auto;
+        margin-top: 0.5rem;
     }
 }

@@ -155,14 +155,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // Cookie Banner Logic
     const cookieBanner = document.getElementById('cookie-banner');
     const acceptCookiesBtn = document.getElementById('accept-cookies');
+    const stickyBar = document.querySelector('.mobile-sticky-bar');
     
     // Check if user has already accepted cookies
     if (!localStorage.getItem('cookiesAccepted')) {
+        // Se NÃO aceitou, esconde a barra de vendas para mostrar o banner
+        if (stickyBar) stickyBar.classList.add('hidden');
+
         // Show banner after 2 seconds
         setTimeout(() => {
             cookieBanner.classList.add('show');
         }, 2000);
-    }
+    } 
     
     if (acceptCookiesBtn) {
         acceptCookiesBtn.addEventListener('click', () => {
@@ -170,6 +174,8 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('cookiesAccepted', 'true');
             // Hide banner
             cookieBanner.classList.remove('show');
+            // Mostrar a barra de vendas
+            if (stickyBar) stickyBar.classList.remove('hidden');
         });
     }
 });
