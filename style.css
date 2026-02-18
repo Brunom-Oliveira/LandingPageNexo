@@ -1282,4 +1282,53 @@ footer {
     .footer-col {
         margin-bottom: 1.5rem;
     }
+
+    /* Mobile Sticky Bar Visibility */
+    .mobile-sticky-bar {
+        display: block !important;
+    }
+    
+    /* Adjust footer padding so content isn't hidden by sticky bar */
+    footer {
+        padding-bottom: 5rem;
+    }
+
+    /* Move WhatsApp icon up to avoid overlap */
+    .floating-whatsapp {
+        bottom: 5rem; 
+    }
+}
+
+/* Mobile Sticky Bar (Hidden on Desktop) */
+.mobile-sticky-bar {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
+    z-index: 1000;
+    padding: 0.75rem 1rem;
+    border-top: 1px solid var(--border);
+}
+
+.sticky-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+.sticky-content p {
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    margin: 0;
+}
+
+.sticky-content .btn {
+    padding: 0.5rem 1.25rem;
+    font-size: 0.9rem;
+    white-space: nowrap;
 }
