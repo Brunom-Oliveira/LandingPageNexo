@@ -37,6 +37,33 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+
+    // Toast Notification Function
+    function showToast(message, type = 'success') {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        
+        const icon = type === 'success' ? 'ph-check-circle' : 'ph-warning-circle';
+        
+        toast.innerHTML = `
+            <i class="ph-fill ${icon} toast-icon"></i>
+            <div class="toast-message">${message}</div>
+        `;
+        
+        container.appendChild(toast);
+        
+        // Trigger reflow
+        toast.offsetHeight;
+        
+        setTimeout(() => toast.classList.add('show'), 10);
+        
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 300);
+        }, 5000);
+    }
+
     // Form Validation & Submission Handling
     const form = document.getElementById('leadForm');
     
@@ -46,22 +73,22 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const phone = phoneInput.value.replace(/\D/g, '');
             if (phone.length < 10) {
-                alert('Por favor, insira um número de WhatsApp válido com DDD.');
+                showToast('Por favor, insira um WhatsApp válido com DDD.', 'error');
                 phoneInput.focus();
                 return;
             }
             
             const btn = form.querySelector('button[type="submit"]');
-            const originalText = btn.innerHTML;
             
             try {
-                btn.innerHTML = 'Enviando...';
+                // Loading State
+                btn.classList.add('loading');
                 btn.disabled = true;
 
                 const formData = new FormData(form);
                 const data = Object.fromEntries(formData.entries());
 
-                const response = await fetch("/webhook/lead-nexo", {
+                const response = await fetch("/webhook/lead", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -70,16 +97,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 if (response.ok) {
-                    alert('Solicitação enviada com sucesso! Em breve entraremos em contato.');
+                    showToast('Recebemos sua aplicação! Fique de olho no WhatsApp.', 'success');
                     form.reset();
                 } else {
-                    alert('Ocorreu um erro ao enviar. Por favor, tente novamente ou chame no WhatsApp.');
+                    showToast('Erro ao enviar. Tente novamente ou chame no WhatsApp.', 'error');
                 }
             } catch (error) {
                 console.error('Erro:', error);
-                alert('Ocorreu um erro de conexão. Por favor, tente novamente.');
+                showToast('Erro de conexão. Verifique sua internet.', 'error');
             } finally {
-                btn.innerHTML = originalText;
+                // Reset State
+                btn.classList.remove('loading');
                 btn.disabled = false;
             }
         });
@@ -99,5 +127,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         });
+        // FAQ Accordion
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    
+    faqQuestions.forEach(question => {
+        question.addEventListener('click', () => {
+            const item = question.parentElement;
+            const isActive = item.classList.contains('active');
+            
+            // Close all others
+            document.querySelectorAll('.faq-item').forEach(i => {
+                i.classList.remove('active');
+            });
+            
+            // Toggle current
+            if (!isActive) {
+                item.classList.add('active');
+            }
+        });
     });
+
+});
 });
