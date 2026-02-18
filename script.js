@@ -127,7 +127,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         });
-        // FAQ Accordion
+    });
+
+    // FAQ Accordion
     const faqQuestions = document.querySelectorAll('.faq-question');
     
     faqQuestions.forEach(question => {
@@ -147,5 +149,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-});
 });
