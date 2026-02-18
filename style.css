@@ -231,6 +231,8 @@ img {
     display: flex;
     justify-content: center;
     padding: 2rem 0;
+    min-height: 400px; /* CLS Protection: Reserve space */
+    align-items: center;
 }
 
 .visual-card {
@@ -244,6 +246,7 @@ img {
     border: 1px solid var(--border);
     transform: rotate(-3deg);
     transition: transform 0.3s ease;
+    aspect-ratio: 3/4; /* CLS Protection: Define ratio */
 }
 
 .visual-card:hover {
