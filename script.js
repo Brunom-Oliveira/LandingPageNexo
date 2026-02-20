@@ -1,4 +1,20 @@
 document.addEventListener('DOMContentLoaded', () => {
+    function getUtmParamsFromUrl() {
+        const params = new URLSearchParams(window.location.search);
+        return {
+            utm_source: params.get('utm_source') || '',
+            utm_medium: params.get('utm_medium') || '',
+            utm_campaign: params.get('utm_campaign') || '',
+            utm_content: params.get('utm_content') || '',
+            utm_term: params.get('utm_term') || ''
+        };
+    }
+
+    function setInputValue(id, value) {
+        const field = document.getElementById(id);
+        if (field) field.value = value || '';
+    }
+
     // Scroll Reveal Animation
     const observerOptions = {
         root: null,
@@ -68,6 +84,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('leadForm');
     
     if (form) {
+        const currentUtm = getUtmParamsFromUrl();
+        const storedFirstTouch = JSON.parse(localStorage.getItem('firstTouchUtm') || 'null');
+        const hasCurrentUtm = Object.values(currentUtm).some(Boolean);
+
+        if (!storedFirstTouch && hasCurrentUtm) {
+            localStorage.setItem('firstTouchUtm', JSON.stringify(currentUtm));
+        }
+
+        const firstTouch = storedFirstTouch || (hasCurrentUtm ? currentUtm : {
+            utm_source: '',
+            utm_medium: '',
+            utm_campaign: '',
+            utm_content: '',
+            utm_term: ''
+        });
+
+        setInputValue('utm_source', currentUtm.utm_source);
+        setInputValue('utm_medium', currentUtm.utm_medium);
+        setInputValue('utm_campaign', currentUtm.utm_campaign);
+        setInputValue('utm_content', currentUtm.utm_content);
+        setInputValue('utm_term', currentUtm.utm_term);
+        setInputValue('first_touch_utm_source', firstTouch.utm_source);
+        setInputValue('first_touch_utm_medium', firstTouch.utm_medium);
+        setInputValue('first_touch_utm_campaign', firstTouch.utm_campaign);
+        setInputValue('landing_page', window.location.href);
+        setInputValue('referrer', document.referrer || 'direct');
+        setInputValue('user_agent', navigator.userAgent);
+
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -100,6 +144,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 if (response.ok) {
+                    if (typeof window.gtag === 'function') {
+                        window.gtag('event', 'generate_lead', {
+                            event_category: 'engagement',
+                            event_label: 'lead_form',
+                            value: 1
+                        });
+                    }
                     showToast('Recebemos sua aplicação! Fique de olho no WhatsApp.', 'success');
                     form.reset();
                 } else {

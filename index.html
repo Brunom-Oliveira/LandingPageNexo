@@ -9,6 +9,7 @@
     <meta name="author" content="Nexo Digital">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://nexodigital.club/">
+    <link rel="preload" as="image" href="assets/logo.png" fetchpriority="high">
     
     <!-- Open Graph (Facebook/WhatsApp) -->
     <meta property="og:type" content="website">
@@ -95,14 +96,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;700&display=swap" rel="stylesheet">
     
     <!-- Phosphor Icons -->
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script defer src="https://unpkg.com/@phosphor-icons/web"></script>
 
     <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
 
     <!-- Floating WhatsApp Button -->
-    <a href="https://wa.me/5531991832689" target="_blank" class="floating-whatsapp" aria-label="Fale conosco no WhatsApp">
+    <a href="https://wa.me/5531991832689" target="_blank" rel="noopener noreferrer" class="floating-whatsapp" aria-label="Fale conosco no WhatsApp">
         <i class="ph-fill ph-whatsapp-logo"></i>
     </a>
 
@@ -111,7 +112,7 @@
         <div class="container hero-container">
             <!-- Logo no Topo -->
             <div class="site-header-logo">
-                <img src="assets/logo.png" alt="Nexo Digital" class="main-logo-img">
+                <img src="assets/logo.png" alt="Nexo Digital" class="main-logo-img" width="280" height="80" fetchpriority="high" decoding="async">
             </div>
 
             <div class="hero-content-wrapper">
@@ -455,6 +456,17 @@
             
             <div class="form-wrapper" id="captura">
                 <form action="/webhook/lead-nexo" method="POST" class="lead-form" id="leadForm">
+                    <input type="hidden" name="utm_source" id="utm_source">
+                    <input type="hidden" name="utm_medium" id="utm_medium">
+                    <input type="hidden" name="utm_campaign" id="utm_campaign">
+                    <input type="hidden" name="utm_content" id="utm_content">
+                    <input type="hidden" name="utm_term" id="utm_term">
+                    <input type="hidden" name="first_touch_utm_source" id="first_touch_utm_source">
+                    <input type="hidden" name="first_touch_utm_medium" id="first_touch_utm_medium">
+                    <input type="hidden" name="first_touch_utm_campaign" id="first_touch_utm_campaign">
+                    <input type="hidden" name="landing_page" id="landing_page">
+                    <input type="hidden" name="referrer" id="referrer">
+                    <input type="hidden" name="user_agent" id="user_agent">
                     <div class="form-header">
                         <h3>Solicite sua Análise Gratuita</h3>
                         <p>Garanta sua condição de fundador agora</p>
@@ -462,17 +474,17 @@
                     
                     <div class="input-group">
                         <label for="nome">Nome do Responsável</label>
-                        <input type="text" id="nome" name="nome" placeholder="Seu nome" required>
+                        <input type="text" id="nome" name="nome" placeholder="Seu nome" autocomplete="name" required>
                     </div>
 
                     <div class="input-group">
                         <label for="whatsapp">WhatsApp</label>
-                        <input type="tel" id="whatsapp" name="whatsapp" placeholder="(00) 00000-0000" required>
+                        <input type="tel" id="whatsapp" name="whatsapp" placeholder="(00) 00000-0000" inputmode="tel" autocomplete="tel-national" required>
                     </div>
 
                     <div class="input-group">
                         <label for="email">E-mail</label>
-                        <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+                        <input type="email" id="email" name="email" placeholder="seu@email.com" autocomplete="email" required>
                     </div>
 
                     <div class="input-group">
