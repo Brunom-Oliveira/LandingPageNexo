@@ -1,7 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
     function trackEvent(eventName, params = {}) {
-        if (typeof window.gtag === 'function') {
+        if (window.nexoAnalyticsEnabled && typeof window.gtag === 'function') {
             window.gtag('event', eventName, params);
+        }
+    }
+
+    function enableAnalyticsIfConsented() {
+        if (localStorage.getItem('cookiesAccepted') === 'true' && typeof window.nexoEnableAnalytics === 'function') {
+            window.nexoEnableAnalytics();
         }
     }
 
@@ -20,6 +26,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const field = document.getElementById(id);
         if (field) field.value = value || '';
     }
+
+    function containsSuspiciousLink(value) {
+        return /(https?:\/\/|www\.|bit\.ly|t\.me|wa\.me)/i.test(value || '');
+    }
+
+    enableAnalyticsIfConsented();
 
     // Scroll Reveal Animation
     const observerOptions = {
@@ -153,12 +165,35 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             
             const phone = phoneInput.value.replace(/\D/g, '');
+            const name = (form.querySelector('#nome')?.value || '').trim();
+            const email = (form.querySelector('#email')?.value || '').trim().toLowerCase();
+            const business = (form.querySelector('#negocio')?.value || '').trim();
+
+            if (name.length < 3 || business.length < 3) {
+                showToast('Preencha nome e negocio com pelo menos 3 caracteres.', 'error');
+                trackEvent('lead_blocked_spam', { reason: 'short_text' });
+                return;
+            }
+
+            if (containsSuspiciousLink(name) || containsSuspiciousLink(business)) {
+                showToast('Remova links e tente novamente.', 'error');
+                trackEvent('lead_blocked_spam', { reason: 'suspicious_text' });
+                return;
+            }
             if (phone.length < 10) {
                 showToast('Por favor, insira um WhatsApp válido com DDD.', 'error');
                 phoneInput.focus();
                 return;
             }
             
+            const dedupeKey = `leadCooldown:${email}:${phone}`;
+            const lastLeadAt = Number(localStorage.getItem(dedupeKey) || '0');
+            if (lastLeadAt > 0 && (Date.now() - lastLeadAt) < 10 * 60 * 1000) {
+                showToast('Ja recebemos seu contato recentemente. Aguarde nosso retorno.', 'error');
+                trackEvent('lead_blocked_spam', { reason: 'cooldown' });
+                return;
+            }
+
             const btn = form.querySelector('button[type="submit"]');
             
             try {
@@ -172,13 +207,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 // URL do n8n (Webhook de Produção)
                 const webhookUrl = form.getAttribute('action');
 
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 8000);
+
                 const response = await fetch(webhookUrl, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify(data)
+                    body: JSON.stringify(data),
+                    signal: controller.signal
                 });
+                clearTimeout(timeoutId);
 
                 if (response.ok) {
                     trackEvent('generate_lead', {
@@ -189,9 +229,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     trackEvent('lead_success', { form_id: 'leadForm' });
                     showToast('Recebemos sua aplicação! Fique de olho no WhatsApp.', 'success');
                     form.reset();
+                    localStorage.setItem(dedupeKey, String(Date.now()));
                     if (formStartedAtInput) {
                         formStartedAtInput.value = String(Date.now());
                     }
+                    setTimeout(() => {
+                        window.location.href = 'obrigado.html';
+                    }, 900);
                 } else {
                     trackEvent('lead_error', { form_id: 'leadForm', status: response.status });
                     showToast('Erro ao enviar. Tente novamente ou chame no WhatsApp.', 'error');
@@ -264,6 +308,9 @@ document.addEventListener('DOMContentLoaded', () => {
         acceptCookiesBtn.addEventListener('click', () => {
             // Save preference
             localStorage.setItem('cookiesAccepted', 'true');
+            if (typeof window.nexoEnableAnalytics === 'function') {
+                window.nexoEnableAnalytics();
+            }
             // Hide banner
             cookieBanner.classList.remove('show');
             // Mostrar a barra de vendas

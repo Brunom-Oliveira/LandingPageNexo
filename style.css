@@ -73,6 +73,14 @@ img {
     text-align: center;
 }
 
+.mt-2 {
+    margin-top: 2rem;
+}
+
+.spacer-lg {
+    height: 4rem;
+}
+
 .highlight {
     color: var(--primary);
 }
@@ -763,6 +771,92 @@ img {
 
 .input-group {
     margin-bottom: 1.25rem;
+}
+
+.checkbox-group {
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+}
+
+.lgpd-label {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: var(--text-light);
+    font-weight: 400;
+}
+
+.privacy-link {
+    text-decoration: underline;
+    color: var(--primary);
+}
+
+.honeypot-field {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.icon-primary {
+    color: var(--primary);
+}
+
+.icon-secondary {
+    color: var(--secondary);
+}
+
+.icon-rocket {
+    font-size: 4rem;
+    color: var(--secondary);
+}
+
+.footer-logo {
+    height: 50px;
+    width: auto;
+    margin-bottom: 1rem;
+}
+
+.heart-red {
+    color: #ef4444;
+}
+
+.footer-privacy {
+    margin-top: 0.5rem;
+}
+
+.footer-privacy-link {
+    color: var(--text-light);
+    text-decoration: none;
+    font-size: 0.8rem;
+}
+
+.obrigado-container {
+    max-width: 760px;
+}
+
+.obrigado-box {
+    background: #fff;
+    border-style: solid;
+}
+
+.obrigado-title {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+}
+
+.obrigado-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
 }
 
 .input-group label {

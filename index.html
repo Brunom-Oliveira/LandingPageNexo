@@ -9,7 +9,7 @@
     <meta name="author" content="Nexo Digital">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://nexodigital.club/">
-    <link rel="preload" as="image" href="assets/logo.png" fetchpriority="high">
+    <link rel="preload" as="image" href="assets/logo-320.png" fetchpriority="high">
     
     <!-- Open Graph (Facebook/WhatsApp) -->
     <meta property="og:type" content="website">
@@ -28,7 +28,6 @@
     <!-- Performance & Preconnect -->
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-    <link rel="dns-prefetch" href="https://unpkg.com">
 
     <!-- ÁREA DE RASTREAMENTO -->
     <!-- Google tag (gtag.js) -->
@@ -38,7 +37,24 @@
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
 
-      gtag('config', 'G-WR0Y26H31X');
+      window.nexoAnalyticsEnabled = false;
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        analytics_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied'
+      });
+      window.nexoEnableAnalytics = function () {
+        if (window.nexoAnalyticsEnabled) return;
+        window.nexoAnalyticsEnabled = true;
+        gtag('consent', 'update', {
+          ad_storage: 'granted',
+          analytics_storage: 'granted',
+          ad_user_data: 'granted',
+          ad_personalization: 'granted'
+        });
+        gtag('config', 'G-WR0Y26H31X');
+      };
     </script>
     <!-- Fim Google Analytics -->
     <!-- Colar aqui o Meta Pixel (Facebook Ads) -->
@@ -95,8 +111,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;700&display=swap" rel="stylesheet">
     
-    <!-- Phosphor Icons -->
-    <script defer src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- Phosphor Icons (self-hosted) -->
+    <link rel="stylesheet" href="assets/phosphor/regular/style.css">
+    <link rel="stylesheet" href="assets/phosphor/bold/style.css">
+    <link rel="stylesheet" href="assets/phosphor/fill/style.css">
+    <link rel="stylesheet" href="assets/phosphor/duotone/style.css">
 
     <link rel="stylesheet" href="style.css?v=2">
 </head>
@@ -112,7 +131,7 @@
         <div class="container hero-container">
             <!-- Logo no Topo -->
             <div class="site-header-logo">
-                <img src="assets/logo.png" alt="Nexo Digital" class="main-logo-img" width="280" height="80" fetchpriority="high" decoding="async">
+                <img src="assets/logo-320.png" srcset="assets/logo-120.png 120w, assets/logo-220.png 220w, assets/logo-320.png 320w" sizes="(max-width: 768px) 180px, 280px" alt="Nexo Digital" class="main-logo-img" width="280" height="280" fetchpriority="high" decoding="async">
             </div>
 
             <div class="hero-content-wrapper">
@@ -232,7 +251,7 @@
                 </div>
             </div>
 
-            <div class="spacer" style="height: 4rem;"></div>
+            <div class="spacer spacer-lg"></div>
 
             <!-- Pilar 2: Landing Page -->
             <div class="benefits-group reverse">
@@ -369,9 +388,9 @@
                         <h3>Ecossistema Completo</h3>
                         <div class="price">
                             <div class="dual-icon">
-                                <i class="ph-duotone ph-desktop" style="color: var(--primary);"></i>
+                                <i class="ph-duotone ph-desktop icon-primary"></i>
                                 <span class="plus">+</span>
-                                <i class="ph-duotone ph-rocket-launch" style="color: var(--secondary);"></i>
+                                <i class="ph-duotone ph-rocket-launch icon-secondary"></i>
                             </div>
                         </div>
                         <p class="price-subtitle">Site + Landing Page integrados</p>
@@ -404,7 +423,7 @@
                     <div class="pricing-header">
                         <h3>Plano de Manutenção</h3>
                         <div class="price">
-                            <i class="ph-duotone ph-rocket" style="font-size: 4rem; color: var(--secondary);"></i>
+                            <i class="ph-duotone ph-rocket icon-rocket"></i>
                         </div>
                         <p class="price-subtitle">Tranquilidade Total</p>
                     </div>
@@ -417,7 +436,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="text-center" style="margin-top: 2rem;">
+            <div class="text-center mt-2">
                 <a href="#captura" class="btn btn-primary">Garantir vaga com Risco Zero</a>
             </div>
         </div>
@@ -456,7 +475,7 @@
             
             <div class="form-wrapper" id="captura">
                 <form action="/webhook/lead-nexo" method="POST" class="lead-form" id="leadForm">
-                    <input type="text" name="website" id="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;">
+                    <input type="text" name="website" id="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="honeypot-field">
                     <input type="hidden" name="form_started_at" id="form_started_at">
                     <input type="hidden" name="utm_source" id="utm_source">
                     <input type="hidden" name="utm_medium" id="utm_medium">
@@ -499,10 +518,10 @@
                         <input type="text" id="instagram" name="instagram" placeholder="@seu.perfil">
                     </div>
 
-                    <div class="input-group checkbox-group" style="display: flex; gap: 0.5rem; align-items: flex-start; margin-bottom: 1.5rem;">
-                        <input type="checkbox" id="lgpd" name="lgpd" required style="width: 20px; height: 20px; margin-top: 2px;">
-                        <label for="lgpd" style="font-size: 0.85rem; line-height: 1.4; color: var(--text-light); font-weight: 400;">
-                            Concordo com a <a href="politica-privacidade.html" target="_blank" rel="noopener noreferrer" style="text-decoration: underline; color: var(--primary);">Política de Privacidade</a> e autorizo o contato via WhatsApp.
+                    <div class="input-group checkbox-group">
+                        <input type="checkbox" id="lgpd" name="lgpd" required>
+                        <label for="lgpd" class="lgpd-label">
+                            Concordo com a <a href="politica-privacidade.html" target="_blank" rel="noopener noreferrer" class="privacy-link">Política de Privacidade</a> e autorizo o contato via WhatsApp.
                         </label>
                     </div>
 
@@ -601,7 +620,7 @@
             <div class="footer-grid">
                 <div class="footer-col">
                     <div class="brand">
-                        <img src="assets/logo.png" alt="Nexo Digital" style="height: 50px; width: auto; margin-bottom: 1rem;">
+                        <img src="assets/logo-220.png" alt="Nexo Digital" class="footer-logo">
                     </div>
                     <p>Agência de desenvolvimento web focada em gerar vendas para negócios locais na Paraíba.</p>
                 </div>
@@ -627,8 +646,8 @@
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2026 Nexo Digital. Todos os direitos reservados. Feito com <i class="ph-fill ph-heart" style="color: red;"></i> no Nordeste.</p>
-                <p style="margin-top: 0.5rem;"><a href="politica-privacidade.html" style="color: var(--text-light); text-decoration: none; font-size: 0.8rem;">Política de Privacidade</a></p>
+                <p>&copy; 2026 Nexo Digital. Todos os direitos reservados. Feito com <i class="ph-fill ph-heart heart-red"></i> no Nordeste.</p>
+                <p class="footer-privacy"><a href="politica-privacidade.html" class="footer-privacy-link">Política de Privacidade</a></p>
             </div>
         </div>
     </footer>
@@ -637,11 +656,13 @@
     
     <!-- Cookie Banner LGPD -->
     <div id="cookie-banner" class="cookie-banner">
-        <p>Este site utiliza cookies para garantir a melhor experiência. <a href="politica-privacidade.html" target="_blank">Saiba mais.</a></p>
+        <p>Este site utiliza cookies para garantir a melhor experiência. <a href="politica-privacidade.html" target="_blank" rel="noopener noreferrer">Saiba mais.</a></p>
         <button id="accept-cookies" class="btn-cookie">Aceitar</button>
     </div>
 
     <script src="script.js?v=2"></script>
 </body>
 </html>
+
+
 
