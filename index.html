@@ -22,6 +22,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Nexo Digital | Web Design PB">
     <meta name="twitter:description" content="Criação de Sites e Landing Pages focadas em vendas para negócios de João Pessoa e região.">
+    <meta name="twitter:image" content="https://nexodigital.club/assets/share-image.jpg">
 
     <!-- Performance & Preconnect -->
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
@@ -108,7 +109,13 @@
     <!-- Hero Section -->
     <header class="hero">
         <div class="container hero-container">
-            <div class="hero-content">
+            <!-- Logo no Topo -->
+            <div class="site-header-logo">
+                <img src="assets/logo.png" alt="Nexo Digital" class="main-logo-img">
+            </div>
+
+            <div class="hero-content-wrapper">
+                <div class="hero-content">
                 <span class="badge">Oferta Exclusiva para Paraíba</span>
                 <h1>Seu Negócio em <span class="highlight">João Pessoa</span> Merece um Site Profissional</h1>
                 <p>Desenvolvemos a presença online de empresas da Paraíba sem pagamento antecipado. Você só paga quando o site estiver pronto.</p>
@@ -147,7 +154,8 @@
                     </div>
                 </div>
             </div>
-        </div>
+            </div> <!-- Fim do hero-content-wrapper -->
+        </div> <!-- Fim do hero-container -->
     </header>
 
     <!-- Problemas Section -->
@@ -446,7 +454,7 @@
             </div>
             
             <div class="form-wrapper" id="captura">
-                <form action="/webhook/lead" method="POST" class="lead-form" id="leadForm">
+                <form action="/webhook/lead-nexo" method="POST" class="lead-form" id="leadForm">
                     <div class="form-header">
                         <h3>Solicite sua Análise Gratuita</h3>
                         <p>Garanta sua condição de fundador agora</p>
@@ -480,7 +488,7 @@
                     <div class="input-group checkbox-group" style="display: flex; gap: 0.5rem; align-items: flex-start; margin-bottom: 1.5rem;">
                         <input type="checkbox" id="lgpd" name="lgpd" required style="width: 20px; height: 20px; margin-top: 2px;">
                         <label for="lgpd" style="font-size: 0.85rem; line-height: 1.4; color: var(--text-light); font-weight: 400;">
-                            Concordo com a <a href="politica-privacidade.html" target="_blank" style="text-decoration: underline; color: var(--primary);">Política de Privacidade</a> e autorizo o contato via WhatsApp.
+                            Concordo com a <a href="politica-privacidade.html" target="_blank" rel="noopener noreferrer" style="text-decoration: underline; color: var(--primary);">Política de Privacidade</a> e autorizo o contato via WhatsApp.
                         </label>
                     </div>
 
@@ -493,8 +501,6 @@
                 </form>
             </div>
         </div>
-    </section>
-
     </section>
 
     <!-- FAQ Section -->
@@ -581,7 +587,7 @@
             <div class="footer-grid">
                 <div class="footer-col">
                     <div class="brand">
-                        <strong>Nexo<span class="highlight">Digital</span></strong>
+                        <img src="assets/logo.png" alt="Nexo Digital" style="height: 50px; width: auto; margin-bottom: 1rem;">
                     </div>
                     <p>Agência de desenvolvimento web focada em gerar vendas para negócios locais na Paraíba.</p>
                 </div>
@@ -624,3 +630,4 @@
     <script src="script.js?v=2"></script>
 </body>
 </html>
+

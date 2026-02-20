@@ -89,9 +89,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = Object.fromEntries(formData.entries());
 
                 // URL do n8n (Webhook de Produção)
-                const N8N_WEBHOOK_URL = "https://api.nexodigital.club/webhook/lead-nexo"; 
+                const webhookUrl = form.getAttribute('action');
 
-                const response = await fetch(N8N_WEBHOOK_URL, {
+                const response = await fetch(webhookUrl, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"

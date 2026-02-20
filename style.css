@@ -1403,3 +1403,44 @@ footer {
         margin-top: 0.5rem;
     }
 }
+/* Logo & Hero Reset Layout */
+.hero-container {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2rem !important;
+}
+
+.site-header-logo {
+    display: flex !important;
+    justify-content: flex-start !important;
+    padding-top: 2rem !important;
+    width: 100% !important;
+    height: auto !important;
+}
+
+.main-logo-img {
+    height: 64px !important;
+    width: auto !important;
+    max-width: 280px !important;
+    display: block !important;
+    object-fit: contain !important;
+}
+
+/* Hero Content Wrapper */
+.hero-content-wrapper {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 3rem !important;
+    align-items: center !important;
+}
+
+@media (min-width: 992px) {
+    .hero-content-wrapper {
+        grid-template-columns: 1.2fr 1fr !important;
+        gap: 5rem !important;
+    }
+    
+    .main-logo-img {
+        height: 80px !important;
+    }
+}
