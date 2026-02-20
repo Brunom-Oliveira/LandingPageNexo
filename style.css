@@ -554,6 +554,11 @@ img {
     justify-content: center;
     align-items: center;
     margin-top: 2rem;
+    margin-bottom: 0.75rem;
+}
+
+.pricing .text-center.mt-2 {
+    margin-top: 2.75rem;
 }
 
 @media (min-width: 768px) {
@@ -799,10 +804,18 @@ img {
 }
 
 .honeypot-field {
-    position: absolute;
-    left: -9999px;
-    opacity: 0;
-    pointer-events: none;
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    overflow: hidden !important;
+    clip-path: inset(50%) !important;
+    white-space: nowrap !important;
+    left: -9999px !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
 }
 
 .icon-primary {
@@ -1140,6 +1153,7 @@ footer {
 .benefits-group.reverse {
     background-color: #F0FDF4; /* Light Green Tint for Sales */
     border-color: #BBF7D0;
+    padding-bottom: 3.5rem;
 }
 
 .group-header {
