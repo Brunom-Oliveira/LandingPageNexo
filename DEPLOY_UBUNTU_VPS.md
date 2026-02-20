@@ -85,3 +85,4 @@ sudo systemctl reload nginx
 - Isso evita CORS no front e centraliza o acesso no proprio dominio.
 - Se seu n8n estiver em outra porta/host, ajuste o `proxy_pass`.
 - Se o n8n rodar em container/docker externo, troque `127.0.0.1:5678` pelo host correto.
+- A config Nginx inclui `gzip`, `etag` e `limit_req` no `/webhook/` para ajudar desempenho e anti-spam.

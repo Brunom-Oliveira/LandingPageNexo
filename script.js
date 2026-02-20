@@ -1,4 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
+    function trackEvent(eventName, params = {}) {
+        if (typeof window.gtag === 'function') {
+            window.gtag('event', eventName, params);
+        }
+    }
+
     function getUtmParamsFromUrl() {
         const params = new URLSearchParams(window.location.search);
         return {
@@ -84,6 +90,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('leadForm');
     
     if (form) {
+        const formStartedAtInput = document.getElementById('form_started_at');
+        const honeypotInput = document.getElementById('website');
+        let hasTrackedFormStart = false;
+
+        if (formStartedAtInput) {
+            formStartedAtInput.value = String(Date.now());
+        }
+
         const currentUtm = getUtmParamsFromUrl();
         const storedFirstTouch = JSON.parse(localStorage.getItem('firstTouchUtm') || 'null');
         const hasCurrentUtm = Object.values(currentUtm).some(Boolean);
@@ -111,9 +125,32 @@ document.addEventListener('DOMContentLoaded', () => {
         setInputValue('landing_page', window.location.href);
         setInputValue('referrer', document.referrer || 'direct');
         setInputValue('user_agent', navigator.userAgent);
+        trackEvent('view_form', { form_id: 'leadForm' });
+
+        form.addEventListener('input', () => {
+            if (!hasTrackedFormStart) {
+                hasTrackedFormStart = true;
+                trackEvent('start_form', { form_id: 'leadForm' });
+            }
+        }, { once: true });
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
+
+            trackEvent('submit_form', { form_id: 'leadForm' });
+
+            if (honeypotInput && honeypotInput.value.trim() !== '') {
+                trackEvent('lead_blocked_spam', { reason: 'honeypot' });
+                return;
+            }
+
+            const startedAt = Number(formStartedAtInput ? formStartedAtInput.value : 0);
+            const elapsedMs = startedAt > 0 ? Date.now() - startedAt : 0;
+            if (elapsedMs > 0 && elapsedMs < 3000) {
+                trackEvent('lead_blocked_spam', { reason: 'too_fast' });
+                showToast('Envio muito rapido. Confirme os dados e tente novamente.', 'error');
+                return;
+            }
             
             const phone = phoneInput.value.replace(/\D/g, '');
             if (phone.length < 10) {
@@ -144,20 +181,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 if (response.ok) {
-                    if (typeof window.gtag === 'function') {
-                        window.gtag('event', 'generate_lead', {
-                            event_category: 'engagement',
-                            event_label: 'lead_form',
-                            value: 1
-                        });
-                    }
+                    trackEvent('generate_lead', {
+                        event_category: 'engagement',
+                        event_label: 'lead_form',
+                        value: 1
+                    });
+                    trackEvent('lead_success', { form_id: 'leadForm' });
                     showToast('Recebemos sua aplicação! Fique de olho no WhatsApp.', 'success');
                     form.reset();
+                    if (formStartedAtInput) {
+                        formStartedAtInput.value = String(Date.now());
+                    }
                 } else {
+                    trackEvent('lead_error', { form_id: 'leadForm', status: response.status });
                     showToast('Erro ao enviar. Tente novamente ou chame no WhatsApp.', 'error');
                 }
             } catch (error) {
                 console.error('Erro:', error);
+                trackEvent('lead_error', { form_id: 'leadForm', status: 'network' });
                 showToast('Erro de conexão. Verifique sua internet.', 'error');
             } finally {
                 // Reset State
@@ -230,3 +271,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
