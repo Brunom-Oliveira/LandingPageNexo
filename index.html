@@ -31,29 +31,39 @@
 
     <!-- ÁREA DE RASTREAMENTO -->
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WR0Y26H31X"></script>
     <script>
+      window.NEXO_GA_ID = 'G-WR0Y26H31X';
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
       window.nexoAnalyticsEnabled = false;
-      gtag('consent', 'default', {
-        ad_storage: 'denied',
-        analytics_storage: 'denied',
-        ad_user_data: 'denied',
-        ad_personalization: 'denied'
-      });
+      window.nexoGtagLoaded = false;
+      window.nexoLoadGtag = function (callback) {
+        if (window.nexoGtagLoaded) {
+          if (typeof callback === 'function') callback();
+          return;
+        }
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=' + window.NEXO_GA_ID;
+        script.onload = function () {
+          window.nexoGtagLoaded = true;
+          gtag('js', new Date());
+          if (typeof callback === 'function') callback();
+        };
+        document.head.appendChild(script);
+      };
       window.nexoEnableAnalytics = function () {
         if (window.nexoAnalyticsEnabled) return;
-        window.nexoAnalyticsEnabled = true;
-        gtag('consent', 'update', {
-          ad_storage: 'granted',
-          analytics_storage: 'granted',
-          ad_user_data: 'granted',
-          ad_personalization: 'granted'
+        window.nexoLoadGtag(function () {
+          window.nexoAnalyticsEnabled = true;
+          gtag('consent', 'update', {
+            ad_storage: 'granted',
+            analytics_storage: 'granted',
+            ad_user_data: 'granted',
+            ad_personalization: 'granted'
+          });
+          gtag('config', window.NEXO_GA_ID);
         });
-        gtag('config', 'G-WR0Y26H31X');
       };
     </script>
     <!-- Fim Google Analytics -->
